@@ -29,6 +29,15 @@ RUN ARCH=$(uname -m) && case $ARCH in aarch64) ARCH="arm64";; x86_64) ARCH="amd6
     apk del git && rm -rf /tmp/* /var/tmp/* /var/cache/apk/* && \
     chmod -R 755 /tmp && mkdir -p /opt/webkubectl
 
+RUN ARCH=$(uname -m) && case $ARCH in aarch64) ARCH="arm64";; x86_64) ARCH="x86_64";; esac && echo "ARCH: " $ARCH && \
+    KUBECAPACITY_VERSION=v0.8.0 && wget https://github.com/robscott/kube-capacity/releases/download/${KUBECAPACITY_VERSION}/kube-capacity_${KUBECAPACITY_VERSION}_linux_${ARCH}.tar.gz && tar -xvf kube-capacity_${KUBECAPACITY_VERSION}_linux_${ARCH}.tar.gz && chmod +x kube-capacity && mv kube-capacity /usr/bin/kubectl-capacity && \
+    KUBEIEXEC_VERSION=v1.19.14 && wget https://github.com/gabeduke/kubectl-iexec/releases/download/${KUBEIEXEC_VERSION}/kubectl-iexec_${KUBEIEXEC_VERSION}_Linux_${ARCH}.tar.gz && tar -xvf kubectl-iexec_${KUBEIEXEC_VERSION}_Linux_${ARCH}.tar.gz && chmod +x kubectl-iexec && mv kubectl-iexec /usr/bin/kubectl-iexec
+RUN ARCH=$(uname -m) && case $ARCH in aarch64) ARCH="arm64";; x86_64) ARCH="amd64";; esac && echo "ARCH: " $ARCH && \
+    KUBELINEAGE_VERSION=v0.5.0-harvester && wget https://github.com/futuretea/kube-lineage/releases/download/${KUBELINEAGE_VERSION}/kube-lineage_linux_${ARCH}.tar.gz && tar -xvf kube-lineage_linux_${ARCH}.tar.gz && chmod +x kube-lineage && mv kube-lineage /usr/bin/kubectl-lineage && \
+    KUBETAIL_VERSION=1.6.20 && wget https://raw.githubusercontent.com/johanhaleby/kubetail/${KUBETAIL_VERSION}/kubetail && chmod +x kubetail && mv kubetail /usr/bin && \
+    KREW_VERSION=v0.4.4 && wget https://github.com/kubernetes-sigs/krew/releases/download/${KREW_VERSION}/krew-linux_${ARCH}.tar.gz && tar -xvf krew-linux_${ARCH}.tar.gz && chmod +x krew-linux_${ARCH} && mv krew-linux_${ARCH} /usr/bin/kubectl-krew && kubectl krew update && \
+    kubectl krew install iexec
+
 COPY vimrc.local /etc/vim
 COPY start-webkubectl.sh /opt/webkubectl
 COPY start-session.sh /opt/webkubectl
