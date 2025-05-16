@@ -39,7 +39,10 @@ RUN ARCH=$(uname -m) && case $ARCH in aarch64) ARCH="arm64";; x86_64) ARCH="amd6
     KUBECTL_NODE_MAINTAIN_VERSION=0.0.2 && wget https://github.com/futuretea/kubectl-node-maintain/releases/download/v${KUBECTL_NODE_MAINTAIN_VERSION}/kubectl-node-maintain_${KUBECTL_NODE_MAINTAIN_VERSION}_linux_${ARCH}.tar.gz && tar -xvf kubectl-node-maintain_${KUBECTL_NODE_MAINTAIN_VERSION}_linux_${ARCH}.tar.gz && chmod +x kubectl-node-maintain && mv kubectl-node-maintain /usr/bin/kubectl-node-maintain && \
     HARVESTER_INVENTORY_VERSION=v0.1.2 && wget https://github.com/futuretea/harvester-inventory/releases/download/${HARVESTER_INVENTORY_VERSION}/harvester-inventory-amd64.tar.gz && tar -xvf harvester-inventory-amd64.tar.gz && chmod +x harvester-inventory && mv harvester-inventory /usr/bin/harvester-inventory
 
-RUN KUBECTL_NODE_SHELL_VERSION=v1.11.0 && wget https://raw.githubusercontent.com/kvaps/kubectl-node-shell/refs/tags/${KUBECTL_NODE_SHELL_VERSION}/kubectl-node_shell && chmod +x kubectl-node_shell && mv kubectl-node_shell /usr/bin/kubectl-node-shell
+RUN KUBECTL_NODE_SHELL_VERSION=1.11.0 && wget https://raw.githubusercontent.com/kvaps/kubectl-node-shell/refs/tags/v${KUBECTL_NODE_SHELL_VERSION}/kubectl-node_shell && chmod +x kubectl-node_shell && mv kubectl-node_shell /usr/bin/kubectl-node-shell  && \
+    KUBECTL_CUSTOM_COLS_VERSION=0.1.2 && wget -O kubectl-custom-cols-${KUBECTL_CUSTOM_COLS_VERSION}.tar.gz https://codeload.github.com/webofmars/kubectl-custom-cols/tar.gz/refs/tags/v${KUBECTL_CUSTOM_COLS_VERSION} && tar -xvf kubectl-custom-cols-${KUBECTL_CUSTOM_COLS_VERSION}.tar.gz && cd kubectl-custom-cols-${KUBECTL_CUSTOM_COLS_VERSION} && chmod +x kubectl-custom-cols && mv kubectl-custom-cols /usr/bin/kubectl-custom-cols && mv templates /usr/bin
+
+RUN KUBECTL_GET_ALL_VERSION=1.3.8 && curl -Lo ketall.gz https://github.com/corneliusweig/ketall/releases/download/v${KUBECTL_GET_ALL_VERSION}/ketall-amd64-linux.tar.gz && tar -xvf ketall.gz && chmod +x ketall-amd64-linux && mv ketall-amd64-linux /usr/bin/kubectl-get-all
 
 COPY vimrc.local /etc/vim
 COPY start-webkubectl.sh /opt/webkubectl
